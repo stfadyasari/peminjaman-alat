@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
       :root {
-        --primary: #0f766e;
-        --secondary: #14b8a6;
-        --light-bg: #f0fdfa;
+        --primary: #1e3a8a;
+        --secondary: #3b82f6;
+        --light-bg: #f5f7fb;
       }
       body {
         margin: 0;
@@ -26,10 +26,10 @@
         min-height: 100vh;
         position: sticky;
         top: 0;
-        background: linear-gradient(180deg, var(--primary), #115e59);
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
         color: #fff;
         padding: 24px 0;
-        box-shadow: 2px 0 18px rgba(15, 118, 110, 0.18);
+        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
       }
       .sidebar-brand,
       .sidebar-user {

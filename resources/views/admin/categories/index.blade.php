@@ -10,8 +10,18 @@
       <form method="POST" action="{{ route('admin.categories.store') }}">
         @csrf
         <div class="mb-3">
-          <label class="form-label fw-600">Nama Kategori</label>
-          <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Contoh: Laptop, Monitor" required>
+          <label class="form-label fw-600">Pilih Kategori</label>
+          <select name="name" class="form-select @error('name') is-invalid @enderror" required>
+            <option value="">Pilih kategori</option>
+            @foreach($presetCategories as $presetCategory)
+              <option value="{{ $presetCategory }}" {{ old('name') === $presetCategory ? 'selected' : '' }}>
+                {{ $presetCategory }}
+              </option>
+            @endforeach
+          </select>
+          @if($presetCategories->isEmpty())
+            <small class="text-muted d-block mt-2">Semua kategori bawaan sudah ditambahkan.</small>
+          @endif
           @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
         </div>
         <button type="submit" class="btn btn-primary w-100">

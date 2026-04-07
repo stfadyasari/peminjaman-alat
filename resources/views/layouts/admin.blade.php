@@ -114,7 +114,7 @@
       <div class="sidebar">
         <div class="sidebar-brand">
           <h4>📱 Admin</h4>
-          <p>Admin </p>
+          
         </div>
         <ul class="nav flex-column">
           <li class="nav-item">
@@ -131,19 +131,19 @@
           </li>
           <li class="nav-item">
             <a href="{{ route('admin.devices.index') }}" class="nav-link {{ request()->routeIs('admin.devices.*') ? 'active' : '' }}">
-              <i class="bi bi-laptop"></i> CRUD Alat
+              <i class="bi bi-laptop"></i> Alat
             </a>
           </li>
           <li class="nav-item">
             <a href="{{ route('admin.categories.index') }}" class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-              <i class="bi bi-tags-fill"></i> CRUD Kategori
+              <i class="bi bi-tags-fill"></i>  Kategori
             </a>
           </li>
 
           <div class="nav-section">Peminjaman</div>
           <li class="nav-item">
             <a href="{{ route('admin.loans.index') }}" class="nav-link {{ request()->routeIs('admin.loans.*') ? 'active' : '' }}">
-              <i class="bi bi-inbox"></i> CRUD Peminjaman
+              <i class="bi bi-inbox"></i>  Peminjaman
             </a>
           </li>
           <li class="nav-item">

@@ -16,17 +16,17 @@
         </a>
         <a href="{{ route('admin.devices.index') }}" class="list-group-item list-group-item-action py-3 px-4" style="border: 0; border-bottom: 1px solid #e5e7eb;">
           <i class="bi bi-laptop" style="color: #10b981; margin-right: 10px;"></i>
-          <strong>CRUD Alat</strong>
+          <strong> Alat</strong>
           <span class="badge bg-secondary float-end">{{ \App\Models\Device::count() }}</span>
         </a>
         <a href="{{ route('admin.categories.index') }}" class="list-group-item list-group-item-action py-3 px-4" style="border: 0; border-bottom: 1px solid #e5e7eb;">
           <i class="bi bi-tags-fill" style="color: #f59e0b; margin-right: 10px;"></i>
-          <strong>CRUD Kategori</strong>
+          <strong> Kategori</strong>
           <span class="badge bg-secondary float-end">{{ \App\Models\Category::count() }}</span>
         </a>
         <a href="{{ route('admin.loans.index') }}" class="list-group-item list-group-item-action py-3 px-4" style="border: 0; border-bottom: 1px solid #e5e7eb;">
           <i class="bi bi-inbox" style="color: #ef4444; margin-right: 10px;"></i>
-          <strong>CRUD Peminjaman</strong>
+          <strong>   Peminjaman</strong>
           <span class="badge bg-secondary float-end">{{ \App\Models\Loan::count() }}</span>
         </a>
         <a href="{{ route('admin.returns.index') }}" class="list-group-item list-group-item-action py-3 px-4" style="border: 0; border-bottom: 1px solid #e5e7eb;">
