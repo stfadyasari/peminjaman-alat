@@ -12,9 +12,14 @@ class PeminjamController extends Controller
     public function dashboard()
     {
         $userId = Auth::id();
+        $availableCount = Device::query()
+            ->withActiveLoansCount()
+            ->get()
+            ->filter(fn (Device $device) => $device->available_stock > 0)
+            ->count();
 
         return view('peminjam.dashboard', [
-            'availableCount' => Device::where('status', 'available')->count(),
+            'availableCount' => $availableCount,
             'loanCount' => Loan::where('user_id', $userId)->count(),
             'activeReturnCount' => Loan::where('user_id', $userId)->where('status', 'approved')->count(),
         ]);
@@ -23,7 +28,8 @@ class PeminjamController extends Controller
     public function devices()
     {
         $devices = Device::with('category')
-            ->where('status', 'available')
+            ->withActiveLoansCount()
+            ->havingRaw('(good_stock - COALESCE(active_loans_quantity, 0)) > 0')
             ->paginate(12);
 
         return view('peminjam.devices', compact('devices'));
@@ -32,7 +38,8 @@ class PeminjamController extends Controller
     public function createLoan()
     {
         $devices = Device::with('category')
-            ->where('status', 'available')
+            ->withActiveLoansCount()
+            ->havingRaw('(good_stock - COALESCE(active_loans_quantity, 0)) > 0')
             ->get();
 
         return view('peminjam.create-loan', compact('devices'));
@@ -42,10 +49,20 @@ class PeminjamController extends Controller
     {
         $loans = Loan::with('device')
             ->where('user_id', Auth::id())
-            ->whereIn('status', ['approved', 'returned'])
+            ->where('status', 'returned')
             ->latest()
             ->paginate(10);
 
         return view('peminjam.returns', compact('loans'));
+    }
+
+    public function loanHistory()
+    {
+        $loans = Loan::with('device')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->paginate(10);
+
+        return view('peminjam.loan-history', compact('loans'));
     }
 }

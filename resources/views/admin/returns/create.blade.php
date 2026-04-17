@@ -50,6 +50,48 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label">Kondisi Barang</label>
+          <select name="return_condition" class="form-select @error('return_condition') is-invalid @enderror">
+            <option value="">Pilih kondisi barang</option>
+            <option value="baik" {{ old('return_condition') === 'baik' ? 'selected' : '' }}>Baik</option>
+            <option value="rusak ringan" {{ old('return_condition') === 'rusak ringan' ? 'selected' : '' }}>Rusak Ringan</option>
+            <option value="rusak berat" {{ old('return_condition') === 'rusak berat' ? 'selected' : '' }}>Rusak Berat</option>
+            <option value="hilang" {{ old('return_condition') === 'hilang' ? 'selected' : '' }}>Hilang</option>
+          </select>
+          @error('return_condition')<div class="invalid-feedback">{{ $message }}</div>@enderror
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label d-block">Tipe Denda</label>
+          <div class="form-check border rounded-3 p-3 mb-2">
+            <input class="form-check-input" type="radio" name="fine_type" id="fine_type_auto" value="auto_late" {{ old('fine_type', 'auto_late') === 'auto_late' ? 'checked' : '' }}>
+            <label class="form-check-label" for="fine_type_auto">Otomatis Keterlambatan</label>
+          </div>
+          <div class="form-check border rounded-3 p-3">
+            <input class="form-check-input" type="radio" name="fine_type" id="fine_type_manual" value="manual_damage" {{ old('fine_type') === 'manual_damage' ? 'checked' : '' }}>
+            <label class="form-check-label" for="fine_type_manual">Denda Kerusakan</label>
+          </div>
+          @error('fine_type')<div class="text-danger small mt-2">{{ $message }}</div>@enderror
+        </div>
+
+        <div id="automaticFineInfo" class="alert alert-info mb-3">
+          Denda otomatis dihitung dari selisih `Tanggal Selesai Pinjam` dan `Tanggal Pengembalian` dengan tarif Rp 2.000 per hari.
+        </div>
+
+        <div id="manualFineFields" class="border rounded-3 p-3 mb-3" style="display: none;">
+          <div class="mb-3">
+            <label class="form-label">Nominal Denda Kerusakan</label>
+            <input type="number" min="0" step="1000" name="manual_fine_amount" value="{{ old('manual_fine_amount', 0) }}" class="form-control @error('manual_fine_amount') is-invalid @enderror">
+            @error('manual_fine_amount')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div>
+            <label class="form-label">Catatan Kerusakan</label>
+            <textarea name="manual_fine_note" rows="3" class="form-control @error('manual_fine_note') is-invalid @enderror">{{ old('manual_fine_note') }}</textarea>
+            @error('manual_fine_note')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+        </div>
+
+        <div class="mb-3">
           <label class="form-label">Catatan</label>
           <textarea name="note" rows="3" class="form-control @error('note') is-invalid @enderror">{{ old('note') }}</textarea>
           @error('note')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -68,3 +110,24 @@
   </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+  (() => {
+    const autoInput = document.getElementById('fine_type_auto');
+    const manualInput = document.getElementById('fine_type_manual');
+    const autoInfo = document.getElementById('automaticFineInfo');
+    const manualFields = document.getElementById('manualFineFields');
+
+    const syncFineFields = () => {
+      const isManual = manualInput.checked;
+      manualFields.style.display = isManual ? 'block' : 'none';
+      autoInfo.style.display = isManual ? 'none' : 'block';
+    };
+
+    autoInput.addEventListener('change', syncFineFields);
+    manualInput.addEventListener('change', syncFineFields);
+    syncFineFields();
+  })();
+</script>
+@endpush

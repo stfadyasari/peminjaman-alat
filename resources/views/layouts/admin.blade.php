@@ -168,10 +168,10 @@
           <h2>Admin </h2>
           <div class="topbar-right">
             <div class="user-info">
-              <span><i class="bi bi-person-circle" style="font-size: 20px;"></i></span>
+              {{-- <span><i class="bi bi-person-circle" style="font-size: 20px;"></i></span> --}}
               <div>
-                <div style="font-weight: 600;">{{ auth()->user()->name }}</div>
-                <div class="user-badge">{{ strtoupper(auth()->user()->role) }}</div>
+                {{-- <div style="font-weight: 600;">{{ auth()->user()->name }}</div>
+                <div class="user-badge">{{ strtoupper(auth()->user()->role) }}</div> --}}
               </div>
             </div>
             <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
@@ -203,5 +203,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @stack('scripts')
   </body>
 </html>

@@ -87,12 +87,12 @@
         <tbody>
           @forelse($loans as $loan)
             <tr>
-              <td class="px-4 py-3">#{{ $loan->id }}</td>
+              <td class="px-4 py-3">{{ $loop->iteration }}</td>
               <td class="px-4 py-3">{{ $loan->user->name ?? '-' }}</td>
               <td class="px-4 py-3">{{ $loan->device->name ?? '-' }}</td>
               <td class="px-4 py-3">{{ $loan->start_date }}</td>
               <td class="px-4 py-3">{{ $loan->returned_at ? $loan->returned_at->format('d-m-Y H:i') : ($loan->end_date ?? '-') }}</td>
-              <td class="px-4 py-3">{{ ucfirst($loan->status) }}</td>
+              <td class="px-4 py-3">{{ $loan->statusLabel() }}</td>
             </tr>
           @empty
             <tr>

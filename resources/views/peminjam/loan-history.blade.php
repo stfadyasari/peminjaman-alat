@@ -1,11 +1,11 @@
 @extends('layouts.peminjam')
 
-@section('page_title', 'Riwayat Pengembalian')
-@section('page_subtitle', 'Melihat riwayat pengembalian, denda, dan status pelunasan alat Anda')
+@section('page_title', 'Riwayat Peminjaman')
+@section('page_subtitle', 'Melihat seluruh riwayat pengajuan dan status peminjaman alat')
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
-  <div class="text-muted">Lihat riwayat pinjaman, status pengembalian, kondisi barang, dan denda dari alat yang Anda pinjam.</div>
+  <div class="text-muted">Lihat semua pengajuan peminjaman, status proses, dan detail alat yang pernah Anda ajukan.</div>
   <a href="{{ route('peminjam.dashboard') }}" class="btn btn-outline-secondary">
     Kembali ke Menu
   </a>
@@ -21,11 +21,9 @@
             <th class="px-4 py-3">Alat</th>
             <th class="px-4 py-3">Jumlah</th>
             <th class="px-4 py-3">Tanggal Pinjam</th>
-            <th class="px-4 py-3">Kondisi</th>
-            <th class="px-4 py-3">Denda</th>
-            <th class="px-4 py-3">Tipe Denda</th>
+            <th class="px-4 py-3">Batas Kembali</th>
             <th class="px-4 py-3">Status</th>
-            <th class="px-4 py-3">Aksi</th>
+            <th class="px-4 py-3">Catatan</th>
           </tr>
         </thead>
         <tbody>
@@ -35,23 +33,17 @@
               <td class="px-4 py-3">{{ $loan->device->name ?? '-' }}</td>
               <td class="px-4 py-3">{{ $loan->quantity ?? 1 }} unit</td>
               <td class="px-4 py-3">{{ $loan->start_date }}</td>
-              <td class="px-4 py-3 text-capitalize">{{ $loan->return_condition ?: '-' }}</td>
-              <td class="px-4 py-3">Rp {{ number_format((float) ($loan->fine_amount ?? 0), 0, ',', '.') }}</td>
-              <td class="px-4 py-3">{{ $loan->fineTypeLabel() }}</td>
+              <td class="px-4 py-3">{{ $loan->end_date ?? '-' }}</td>
               <td class="px-4 py-3">
                 <span class="badge text-bg-{{ $loan->statusBadgeClass() }}">
                   {{ $loan->statusLabel() }}
                 </span>
               </td>
-              <td class="px-4 py-3">
-                <a href="{{ route('peminjam.returns.form', $loan) }}" class="btn btn-outline-primary btn-sm">
-                  Lihat Detail
-                </a>
-              </td>
+              <td class="px-4 py-3" style="white-space: pre-line;">{{ $loan->note ?: '-' }}</td>
             </tr>
           @empty
             <tr>
-              <td colspan="9" class="text-center text-muted py-5">Belum ada riwayat pinjaman yang bisa ditampilkan.</td>
+              <td colspan="7" class="text-center text-muted py-5">Belum ada riwayat peminjaman yang bisa ditampilkan.</td>
             </tr>
           @endforelse
         </tbody>

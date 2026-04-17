@@ -42,6 +42,7 @@
               <th>ID</th>
               <th>Peminjam</th>
               <th>Alat</th>
+              <th>Jumlah</th>
               <th>Periode</th>
               <th>Aksi</th>
             </tr>
@@ -49,9 +50,10 @@
           <tbody>
             @forelse(\App\Models\Loan::with(['user','device'])->where('status','pending')->get() as $loan)
             <tr>
-              <td>#{{ $loan->id }}</td>
+              <td>{{ $loop->iteration }}</td>
               <td>{{ $loan->user->name ?? '-' }}</td>
               <td>{{ $loan->device->name ?? '-' }}</td>
+              <td>{{ $loan->quantity ?? 1 }} unit</td>
               <td>{{ $loan->start_date }} s/d {{ $loan->end_date }}</td>
               <td>
                 <form method="POST" action="{{ route('admin.loans.approve',$loan) }}" style="display:inline;">
@@ -65,7 +67,7 @@
               </td>
             </tr>
             @empty
-            <tr><td colspan="5" class="text-center text-muted p-4">Tidak ada peminjaman pending</td></tr>
+            <tr><td colspan="6" class="text-center text-muted p-4">Tidak ada peminjaman pending</td></tr>
             @endforelse
           </tbody>
         </table>
@@ -81,6 +83,7 @@
               <th>ID</th>
               <th>Peminjam</th>
               <th>Alat</th>
+              <th>Jumlah</th>
               <th>Periode</th>
               <th>Aksi</th>
             </tr>
@@ -88,9 +91,10 @@
           <tbody>
             @forelse(\App\Models\Loan::with(['user','device'])->where('status','approved')->get() as $loan)
             <tr>
-              <td>#{{ $loan->id }}</td>
+              <td>{{ $loop->iteration }}</td>
               <td>{{ $loan->user->name ?? '-' }}</td>
               <td>{{ $loan->device->name ?? '-' }}</td>
+              <td>{{ $loan->quantity ?? 1 }} unit</td>
               <td>{{ $loan->start_date }} s/d {{ $loan->end_date }}</td>
               <td>
                 <form method="POST" action="{{ route('admin.loans.return',$loan) }}" style="display:inline;" onsubmit="return confirm('Tandai sebagai dikembalikan?')">
@@ -100,7 +104,7 @@
               </td>
             </tr>
             @empty
-            <tr><td colspan="5" class="text-center text-muted p-4">Tidak ada peminjaman yang disetujui</td></tr>
+            <tr><td colspan="6" class="text-center text-muted p-4">Tidak ada peminjaman yang disetujui</td></tr>
             @endforelse
           </tbody>
         </table>
@@ -116,6 +120,7 @@
               <th>ID</th>
               <th>Peminjam</th>
               <th>Alat</th>
+              <th>Jumlah</th>
               <th>Periode</th>
               <th>Dikembalikan</th>
             </tr>
@@ -123,14 +128,15 @@
           <tbody>
             @forelse(\App\Models\Loan::with(['user','device'])->where('status','returned')->get() as $loan)
             <tr>
-              <td>#{{ $loan->id }}</td>
+              <td>{{ $loop->iteration }}</td>
               <td>{{ $loan->user->name ?? '-' }}</td>
               <td>{{ $loan->device->name ?? '-' }}</td>
+              <td>{{ $loan->quantity ?? 1 }} unit</td>
               <td>{{ $loan->start_date }} s/d {{ $loan->end_date }}</td>
               <td>{{ $loan->returned_at ? \Carbon\Carbon::parse($loan->returned_at)->format('d-m-Y H:i') : '-' }}</td>
             </tr>
             @empty
-            <tr><td colspan="5" class="text-center text-muted p-4">Tidak ada peminjaman yang dikembalikan</td></tr>
+            <tr><td colspan="6" class="text-center text-muted p-4">Tidak ada peminjaman yang dikembalikan</td></tr>
             @endforelse
           </tbody>
         </table>
@@ -146,6 +152,7 @@
               <th>ID</th>
               <th>Peminjam</th>
               <th>Alat</th>
+              <th>Jumlah</th>
               <th>Periode</th>
               <th>Alasan</th>
             </tr>
@@ -153,14 +160,15 @@
           <tbody>
             @forelse(\App\Models\Loan::with(['user','device'])->where('status','rejected')->get() as $loan)
             <tr>
-              <td>#{{ $loan->id }}</td>
+              <td>{{ $loop->iteration }}</td>
               <td>{{ $loan->user->name ?? '-' }}</td>
               <td>{{ $loan->device->name ?? '-' }}</td>
+              <td>{{ $loan->quantity ?? 1 }} unit</td>
               <td>{{ $loan->start_date }} s/d {{ $loan->end_date }}</td>
               <td>{{ $loan->note ?? '-' }}</td>
             </tr>
             @empty
-            <tr><td colspan="5" class="text-center text-muted p-4">Tidak ada peminjaman yang ditolak</td></tr>
+            <tr><td colspan="6" class="text-center text-muted p-4">Tidak ada peminjaman yang ditolak</td></tr>
             @endforelse
           </tbody>
         </table>
@@ -169,4 +177,3 @@
   </div>
 </div>
 @endsection
-

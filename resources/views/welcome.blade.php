@@ -69,7 +69,7 @@
                         Platform Terintegrasi
                     </div>
                     <h1 class="max-w-3xl text-5xl font-extrabold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
-                        Peminjaman laptop kampus
+                        Peminjaman PPLG
                         <span class="block text-cyan">lebih cepat, rapi, dan mudah dipantau.</span>
                     </h1>
                     <p class="mt-6 max-w-2xl text-lg leading-8 text-white/72 sm:text-xl">

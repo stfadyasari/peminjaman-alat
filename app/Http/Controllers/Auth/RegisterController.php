@@ -19,18 +19,20 @@ class RegisterController extends Controller
         $data = $request->validate([
             'name'=>'required|string|max:255',
             'email'=>'required|email|unique:users,email',
+            'phone'=>'required|string|max:20',
             'password'=>'required|min:6|confirmed',
         ]);
 
         $user = User::create([
             'name'=>$data['name'],
             'email'=>$data['email'],
+            'phone'=>$data['phone'],
             'password'=>bcrypt($data['password']),
             'role'=>'peminjam',
         ]);
 
         Auth::login($user);
 
-        return redirect('/');
+        return view('peminjam.dashboard');
     }
 }

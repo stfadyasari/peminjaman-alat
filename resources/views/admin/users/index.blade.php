@@ -23,7 +23,7 @@
       <tbody>
         @forelse($users as $u)
         <tr>
-          <td>#{{ $u->id }}</td>
+          <td>{{ $users->firstItem() + $loop->index }}</td>
           <td><strong>{{ $u->name }}</strong></td>
           <td>{{ $u->email }}</td>
           <td>

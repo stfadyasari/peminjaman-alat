@@ -14,7 +14,11 @@
         @endforeach
       </select>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm text-gray-300 mb-1">Jumlah Pinjam</label>
+        <input type="number" min="1" name="quantity" value="1" class="w-full bg-transparent border border-gray-700 rounded px-3 py-2 text-gray-200" required>
+      </div>
       <div>
         <label class="block text-sm text-gray-300 mb-1">Tanggal Mulai</label>
         <input type="date" name="start_date" class="w-full bg-transparent border border-gray-700 rounded px-3 py-2 text-gray-200" required>

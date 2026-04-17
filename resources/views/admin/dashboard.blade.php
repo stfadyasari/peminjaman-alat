@@ -128,7 +128,7 @@
               <tbody>
                 @forelse(\App\Models\Loan::with(['user','device'])->latest()->limit(5)->get() as $loan)
                 <tr>
-                  <td>#{{ $loan->id }}</td>
+                  <td>{{ $loop->iteration }}</td>
                   <td>{{ $loan->user->name ?? '-' }}</td>
                   <td>{{ $loan->device->name ?? '-' }}</td>
                   <td>{{ $loan->start_date }} - {{ $loan->end_date }}</td>
@@ -167,7 +167,7 @@
               <tbody>
                 @forelse(\App\Models\User::latest()->limit(5)->get() as $user)
                 <tr>
-                  <td>#{{ $user->id }}</td>
+                  <td>{{ $loop->iteration }}</td>
                   <td><strong>{{ $user->name }}</strong></td>
                   <td>{{ $user->email }}</td>
                   <td><span class="badge bg-secondary">{{ ucfirst($user->role) }}</span></td>

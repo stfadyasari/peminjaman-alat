@@ -125,8 +125,11 @@
           <a href="{{ route('peminjam.loans.create') }}" class="nav-link {{ request()->routeIs('peminjam.loans.create') ? 'active' : '' }}">
             <i class="bi bi-journal-plus me-2"></i> Ajukan Peminjaman
           </a>
-          <a href="{{ route('peminjam.returns') }}" class="nav-link {{ request()->routeIs('peminjam.returns') ? 'active' : '' }}">
-            <i class="bi bi-arrow-counterclockwise me-2"></i> Mengembalikan Alat
+          <a href="{{ route('peminjam.loans.history') }}" class="nav-link {{ request()->routeIs('peminjam.loans.history') ? 'active' : '' }}">
+            <i class="bi bi-clock-history me-2"></i> Riwayat Peminjaman
+          </a>
+          <a href="{{ route('peminjam.returns') }}" class="nav-link {{ request()->routeIs('peminjam.returns*') ? 'active' : '' }}">
+            <i class="bi bi-arrow-counterclockwise me-2"></i> Riwayat Pengembalian
           </a>
         </nav>
       </aside>
@@ -160,5 +163,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @stack('scripts')
   </body>
 </html>

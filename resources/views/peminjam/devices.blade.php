@@ -15,10 +15,23 @@
   @forelse($devices as $device)
     <div class="col-md-6 col-xl-4">
       <div class="card panel-card h-100">
+        @if($device->image)
+          <img src="{{ asset('storage/'.$device->image) }}" alt="{{ $device->name }}" style="height: 220px; object-fit: cover;" class="card-img-top">
+        @endif
         <div class="card-body">
           <h5 class="fw-bold">{{ $device->name }}</h5>
           <p class="mb-2 text-muted">Kategori: {{ optional($device->category)->name ?? '-' }}</p>
-          <p class="mb-3">Status: <span class="badge text-bg-success">{{ ucfirst($device->status) }}</span></p>
+          <p class="mb-1">Total stok: <strong>{{ $device->stock }}</strong></p>
+          <p class="mb-1">Kondisi baik: <strong>{{ $device->good_stock }}</strong></p>
+          <p class="mb-1">Rusak ringan: <strong>{{ $device->minor_damage_stock }}</strong></p>
+          <p class="mb-1">Rusak berat: <strong>{{ $device->major_damage_stock }}</strong></p>
+          <p class="mb-3">Tersedia: <strong>{{ $device->available_stock }}</strong></p>
+          <p class="mb-3">
+            Status:
+            <span class="badge {{ $device->available_stock > 0 ? 'text-bg-success' : 'text-bg-secondary' }}">
+              {{ $device->available_stock > 0 ? 'Tersedia' : 'Tidak tersedia' }}
+            </span>
+          </p>
           <a href="{{ route('peminjam.loans.create') }}" class="btn btn-primary">Ajukan Peminjaman</a>
         </div>
       </div>

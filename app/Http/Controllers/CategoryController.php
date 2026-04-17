@@ -5,58 +5,62 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Support\ActivityLogger;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
-    private const PRESET_CATEGORIES = [
-        'Laptop',
-        'Monitor',
-        'Keyboard',
-        'Mouse',
-        'Printer',
-        'Proyektor',
-        'Scanner',
-        'Webcam',
-        'Speaker',
-        'Microphone',
-        'Router',
-        'Tablet',
-    ];
-
     public function index()
     {
-        $categories = Category::all();
-        $presetCategories = collect(self::PRESET_CATEGORIES)
-            ->reject(fn ($name) => Category::where('name', $name)->exists())
-            ->values();
+        $categories = Category::withCount('devices')->latest()->get();
 
-        return view('admin.categories.index', compact('categories', 'presetCategories'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'in:' . implode(',', self::PRESET_CATEGORIES)],
+        $request->merge([
+            'name' => trim((string) $request->input('name')),
+            'description' => trim((string) $request->input('description')),
         ]);
 
-        $category = Category::firstOrCreate([
-            'name' => $request->name,
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
+            'description' => ['nullable', 'string'],
         ]);
-
-        if (! $category->wasRecentlyCreated) {
-            return back()->with('success', 'Kategori sudah tersedia, silakan pilih kategori lain.');
-        }
+        $category = Category::create($data);
 
         ActivityLogger::log('category.create', 'Menambahkan kategori #'.$category->id.' ('.$category->name.')');
         return back()->with('success', 'Kategori berhasil ditambahkan.');
     }
 
+    public function show(Category $category)
+    {
+        $category->load('devices');
+
+        return view('admin.categories.show', compact('category'));
+    }
+
+    public function edit(Category $category)
+    {
+        $category->loadCount('devices');
+
+        return view('admin.categories.edit', compact('category'));
+    }
+
     public function update(Request $request, Category $category)
     {
-        $request->validate(['name'=>'required']);
-        $category->update($request->only('name'));
+        $request->merge([
+            'name' => trim((string) $request->input('name')),
+            'description' => trim((string) $request->input('description')),
+        ]);
+
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255', Rule::unique('categories', 'name')->ignore($category->id)],
+            'description' => ['nullable', 'string'],
+        ]);
+        $category->update($data);
         ActivityLogger::log('category.update', 'Mengubah kategori #'.$category->id.' ('.$category->name.')');
-        return back();
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diperbarui.');
     }
 
     public function destroy(Category $category)

@@ -20,6 +20,7 @@
             <th class="px-4 py-3">ID</th>
             <th class="px-4 py-3">Peminjam</th>
             <th class="px-4 py-3">Alat</th>
+            <th class="px-4 py-3">Jumlah</th>
             <th class="px-4 py-3">Periode</th>
             <th class="px-4 py-3">Status</th>
             <th class="px-4 py-3">Aksi</th>
@@ -28,13 +29,14 @@
         <tbody>
           @forelse($loans as $loan)
             <tr>
-              <td class="px-4 py-3">#{{ $loan->id }}</td>
+              <td class="px-4 py-3">{{ $loans->firstItem() + $loop->index }}</td>
               <td class="px-4 py-3">{{ $loan->user->name ?? '-' }}</td>
               <td class="px-4 py-3">{{ $loan->device->name ?? '-' }}</td>
+              <td class="px-4 py-3">{{ $loan->quantity ?? 1 }} unit</td>
               <td class="px-4 py-3">{{ $loan->start_date }} s/d {{ $loan->end_date ?? '-' }}</td>
               <td class="px-4 py-3">
                 <span class="badge text-bg-{{ $loan->status === 'pending' ? 'warning' : ($loan->status === 'approved' ? 'success' : 'danger') }}">
-                  {{ ucfirst($loan->status) }}
+                  {{ $loan->statusLabel() }}
                 </span>
               </td>
               <td class="px-4 py-3">
@@ -56,7 +58,7 @@
             </tr>
           @empty
             <tr>
-              <td colspan="6" class="text-center text-muted py-5">Belum ada data peminjaman.</td>
+              <td colspan="7" class="text-center text-muted py-5">Belum ada data peminjaman.</td>
             </tr>
           @endforelse
         </tbody>

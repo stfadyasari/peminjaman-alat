@@ -30,6 +30,18 @@
       <div class="text-muted small">Tanggal Pengembalian</div>
       <div class="fw-semibold">{{ $return->returned_at ? \Carbon\Carbon::parse($return->returned_at)->format('d-m-Y H:i') : '-' }}</div>
     </div>
+    <div class="col-md-6">
+      <div class="text-muted small">Kondisi Barang</div>
+      <div class="fw-semibold text-capitalize">{{ $return->return_condition ?: '-' }}</div>
+    </div>
+    <div class="col-md-6">
+      <div class="text-muted small">Denda</div>
+      <div class="fw-semibold">Rp {{ number_format((float) ($return->fine_amount ?? 0), 0, ',', '.') }}</div>
+    </div>
+    <div class="col-md-6">
+      <div class="text-muted small">Tipe Denda</div>
+      <div class="fw-semibold">{{ $return->fineTypeLabel() }}</div>
+    </div>
     <div class="col-12">
       <div class="text-muted small">Catatan</div>
       <div class="fw-semibold">{{ $return->note ?: '-' }}</div>

@@ -21,11 +21,11 @@
         <tbody class="bg-transparent divide-y divide-gray-700">
           @forelse($loans as $loan)
           <tr class="hover:bg-white/2">
-            <td class="px-6 py-4 text-sm text-gray-200 align-top">{{ $loan->id }}</td>
+            <td class="px-6 py-4 text-sm text-gray-200 align-top">{{ $loans->firstItem() + $loop->index }}</td>
             <td class="px-6 py-4 text-sm text-gray-200 align-top">{{ optional($loan->user)->name }}</td>
             <td class="px-6 py-4 text-sm text-gray-200 align-top">{{ optional($loan->device)->name }}</td>
             <td class="px-6 py-4 text-sm text-gray-200 align-top">{{ $loan->start_date }} - {{ $loan->end_date }}</td>
-            <td class="px-6 py-4 text-sm text-gray-200 align-top">{{ ucfirst($loan->status) }}</td>
+            <td class="px-6 py-4 text-sm text-gray-200 align-top">{{ $loan->statusLabel() }}</td>
             <td class="px-6 py-4 text-sm text-gray-200 align-top space-x-2">
               @if(auth()->user() && auth()->user()->role === 'petugas')
                 @if($loan->status === 'pending')
@@ -58,8 +58,8 @@
       @forelse($loans as $loan)
         <div class="bg-gray-800/40 border border-gray-700 rounded-lg p-4">
           <div class="flex items-center justify-between">
-            <div class="text-sm text-gray-300 font-medium">#{{ $loan->id }} — {{ optional($loan->user)->name }}</div>
-            <div class="text-xs text-gray-400">{{ ucfirst($loan->status) }}</div>
+            <div class="text-sm text-gray-300 font-medium">#{{ $loans->firstItem() + $loop->index }} — {{ optional($loan->user)->name }}</div>
+            <div class="text-xs text-gray-400">{{ $loan->statusLabel() }}</div>
           </div>
           <div class="mt-2 text-sm text-gray-200">Alat: {{ optional($loan->device)->name }}</div>
           <div class="mt-1 text-sm text-gray-200">Periode: {{ $loan->start_date }} - {{ $loan->end_date }}</div>

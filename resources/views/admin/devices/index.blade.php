@@ -14,8 +14,12 @@
       <thead style="background: #f5f7fb; border-bottom: 2px solid #e5e7eb;">
         <tr>
           <th>ID</th>
+          <th>Gambar</th>
           <th>Nama</th>
-          <th>Serial</th>
+          <th>Total Stok</th>
+          <th>Baik</th>
+          <th>Rusak Ringan</th>
+          <th>Rusak Berat</th>
           <th>Kategori</th>
           <th>Status</th>
           <th>Aksi</th>
@@ -24,17 +28,28 @@
       <tbody>
         @forelse($devices as $d)
         <tr>
-          <td>#{{ $d->id }}</td>
+          <td>{{ $devices->firstItem() + $loop->index }}</td>
+          <td>
+            @if($d->image)
+              <img src="{{ asset('storage/'.$d->image) }}" alt="{{ $d->name }}" style="width: 64px; height: 64px; object-fit: cover; border-radius: 10px;">
+            @else
+              <div class="d-flex align-items-center justify-content-center text-muted" style="width: 64px; height: 64px; background: #f5f7fb; border-radius: 10px;">
+                <i class="bi bi-image"></i>
+              </div>
+            @endif
+          </td>
           <td><strong>{{ $d->name }}</strong></td>
-          <td><code>{{ $d->serial_number ?? '-' }}</code></td>
+          <td>{{ $d->stock }}</td>
+          <td>{{ $d->good_stock }}</td>
+          <td>{{ $d->minor_damage_stock }}</td>
+          <td>{{ $d->major_damage_stock }}</td>
           <td>{{ optional($d->category)->name ?? '-' }}</td>
           <td>
             <span class="badge" style="background: 
               @if($d->status === 'available') #10b981
               @elseif($d->status === 'borrowed') #f59e0b
-              @elseif($d->status === 'reserved') #3b82f6
               @else #ef4444 @endif;">
-              {{ ucfirst($d->status) }}
+              {{ $d->status === 'unavailable' ? 'Tidak tersedia' : ucfirst($d->status) }}
             </span>
           </td>
           <td>
@@ -50,7 +65,7 @@
           </td>
         </tr>
         @empty
-        <tr><td colspan="6" class="text-center text-muted p-4">Belum ada alat</td></tr>
+        <tr><td colspan="10" class="text-center text-muted p-4">Belum ada alat</td></tr>
         @endforelse
       </tbody>
     </table>
